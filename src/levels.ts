@@ -16,5 +16,6 @@ export const levels = {
 			[1, 1],
 			[2, 3],
 		],
+		stage: stages["2"],
 	},
 };
