@@ -9,4 +9,11 @@ Just thinking out loud here for now. This service runs on my rpi4. It exposes an
 
 Maybe this app should use Konva to draw a canvas, maybe in plain html/css with a HTML-to-Canvas system. Not sure yet. CSS grid might be very suitable.
 
-My thermal printer service should, when building the newspaper, call the endpoint and draw the dungeon as an image. I'm not sure yet which service should be in control of selecting the level. Probably this repo.
+My thermal printer service should, when building the newspaper, call the endpoint and draw the dungeon as an image. 
+
+There should be some way to track week-to-week progress. This includes current level, stats and health.
+
+
+# Run
+
+bun index.ts
