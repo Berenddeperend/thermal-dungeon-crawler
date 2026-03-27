@@ -9,6 +9,16 @@ const stage = new Konva.Stage({
 	height: 600,
 });
 
+const layer = new Konva.Layer();
+
+layer.add(
+	new Konva.Text({
+		text: "wolla je bent een boef",
+	}),
+);
+
+stage.add(layer);
+
 // ... the rest of your konva code
 
 // Export as data URL
