@@ -16,4 +16,4 @@ There should be some way to track week-to-week progress. This includes current l
 
 # Run
 
-bun index.ts
+bun --hot run index.ts
