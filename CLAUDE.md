@@ -36,7 +36,7 @@ Use HTML imports with `Bun.serve()`. Don't use `vite`. HTML imports fully suppor
 
 Server:
 
-```ts#index.ts
+```ts#index.tsx
 import index from "./index.html"
 
 Bun.serve({
@@ -97,10 +97,10 @@ export default function Frontend() {
 root.render(<Frontend />);
 ```
 
-Then, run index.ts
+Then, run index.tsx
 
 ```sh
-bun --hot ./index.ts
+bun --hot ./index.tsx
 ```
 
 For more information, read the Bun API docs in `node_modules/bun-types/docs/**.md`.
