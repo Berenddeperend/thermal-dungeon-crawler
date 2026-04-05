@@ -1,22 +1,23 @@
-const html = (): JSX.Element => (
-	<html>
-		<p>hoi</p>
-	</html>
-);
+import { Database } from "bun:sqlite";
+import {stage} from './src/render';
 
-const server = Bun.serve({
-	// `routes` requires Bun v1.2.3+
-	routes: {
-		// Static routes
-		"/webview": () => {
-			return new Response("asdf");
-		},
+const db = new Database("dungeon-crawler.db");
+const query = db.query("select 'Hello world' as message;");
+query.get();
 
-		// Dynamic routes
-		"/users/:id": (req) => {
-			return new Response(`Hello User ${req.params.id}!`);
-		},
+
+
+Bun.serve({
+	port: 3000,
+	fetch(req) {
+		const url = new URL(req.url);
+		const name = url.searchParams.get("name") ?? "world";
+
+		return new Response(`<h1>Hello, ${name}!</h1>
+${stage.toJSON()}
+
+`, {
+			headers: { "Content-Type": "text/html; charset=utf-8" },
+		});
 	},
 });
-
-console.log(`bun server running at ${server.url}`);

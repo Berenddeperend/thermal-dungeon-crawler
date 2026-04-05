@@ -22,4 +22,8 @@ stage.add(layer);
 // Export as data URL
 const dataURL = stage.toDataURL();
 
+
 console.log(dataURL);
+
+export {stage}
+
