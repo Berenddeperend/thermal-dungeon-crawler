@@ -7,8 +7,10 @@ export function renderLevel(gameState: GameState): Buffer {
 	const level = levels[gameState.level as keyof typeof levels];
 	const stage = new Konva.Stage({
 		width: 576,
-		height: 600,
+		height: 800,
 	});
+
+
 
 	const layer = new Konva.Layer();
 
@@ -29,16 +31,6 @@ export function renderLevel(gameState: GameState): Buffer {
 				layer.add(KonvaImage)
 			})
 
-			// layer.add(new Konva.Image({
-			//
-			// }))
-
-			// layer.add(new Konva.Rect({
-			// 	width: cellSize,
-			// 	height: cellSize,
-			// 	x: x * cellSize,
-			// 	y: y * cellSize,
-			// }))
 		});
 	});
 

@@ -24,7 +24,7 @@ Bun.serve({
 <html>
 <head><title>Debug View</title></head>
 <body style="background:#111;display:flex;justify-content:center;align-items:center;min-height:100vh;margin:0">
-	<img id="img" src="/image" style="border:1px solid #333">
+	<img id="img" src="/image" style="border:1px solid #333; width: 288px;" >
 <!--	<script>setInterval(() => document.getElementById('img').src = '/image?' + Date.now(), 1000)</script>-->
 </body>
 </html>`,
