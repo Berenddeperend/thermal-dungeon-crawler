@@ -19,3 +19,4 @@ export const stages = {
 		[S, o, o, o, o],
 	],
 };
+

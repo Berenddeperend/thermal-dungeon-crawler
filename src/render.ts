@@ -1,29 +1,52 @@
 import Konva from "konva";
-import "konva/canvas-backend"; // or 'konva/skia-backend'
+import "konva/canvas-backend";
+import type { GameState } from "./db";
+import { levels } from "./levels";
 
-// Create a stage
-const stage = new Konva.Stage({
-	width: 800,
-	height: 600,
-});
+export function renderLevel(gameState: GameState): Buffer {
+	const level = levels[gameState.level as keyof typeof levels];
+	const stage = new Konva.Stage({
+		width: 576,
+		height: 600,
+	});
 
-const layer = new Konva.Layer();
-
-layer.add(
-	new Konva.Text({
-		text: "wolla je bent een boef",
-	}),
-);
-
-stage.add(layer);
-
-// ... the rest of your konva code
-
-// Export as data URL
-const dataURL = stage.toDataURL();
+	const layer = new Konva.Layer();
 
 
-console.log(dataURL);
+	level.stage.forEach((row, y) => {
+		row.forEach((cell, x) => {
+			const cellSize = stage.width() / row.length;
 
-export {stage}
+			Konva.Image.fromURL(cell.sprite, (KonvaImage) => {
 
+				console.log(KonvaImage);
+				KonvaImage.setAttrs({
+						image: KonvaImage.image(),
+						x: x * cellSize,
+						y: y * cellSize,
+				})
+
+				layer.add(KonvaImage)
+			})
+
+			// layer.add(new Konva.Image({
+			//
+			// }))
+
+			// layer.add(new Konva.Rect({
+			// 	width: cellSize,
+			// 	height: cellSize,
+			// 	x: x * cellSize,
+			// 	y: y * cellSize,
+			// }))
+		});
+	});
+
+
+	// TODO: render the level grid, monsters, player, etc.
+	stage.add(layer) ;
+
+	const dataURL = stage.toDataURL({ mimeType: "image/png" });
+	const base64 = dataURL.replace(/^data:image\/png;base64,/, "");
+	return Buffer.from(base64, "base64");
+}

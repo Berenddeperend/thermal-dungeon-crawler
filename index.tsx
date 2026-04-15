@@ -1,23 +1,49 @@
-import { Database } from "bun:sqlite";
-import {stage} from './src/render';
-
-const db = new Database("dungeon-crawler.db");
-const query = db.query("select 'Hello world' as message;");
-query.get();
-
-
+import { getState, updateState } from "./src/db";
+import { renderLevel } from "./src/render";
+import admin from "./src/admin.html";
 
 Bun.serve({
-	port: 3000,
-	fetch(req) {
-		const url = new URL(req.url);
-		const name = url.searchParams.get("name") ?? "world";
+	port: 3001,
+	routes: {
+		"/": admin,
 
-		return new Response(`<h1>Hello, ${name}!</h1>
-${stage.toJSON()}
+		"/image": {
+			GET: () => {
+				const state = getState();
+				const buffer = renderLevel(state);
+				return new Response(buffer, {
+					headers: { "Content-Type": "image/png" },
+				});
+			},
+		},
 
-`, {
-			headers: { "Content-Type": "text/html; charset=utf-8" },
-		});
+		"/debug": {
+			GET: () => {
+				return new Response(
+					`<!DOCTYPE html>
+<html>
+<head><title>Debug View</title></head>
+<body style="background:#111;display:flex;justify-content:center;align-items:center;min-height:100vh;margin:0">
+	<img id="img" src="/image" style="border:1px solid #333">
+<!--	<script>setInterval(() => document.getElementById('img').src = '/image?' + Date.now(), 1000)</script>-->
+</body>
+</html>`,
+					{ headers: { "Content-Type": "text/html" } },
+				);
+			},
+		},
+
+		"/api/state": {
+			GET: () => {
+				return Response.json(getState());
+			},
+			POST: async (req) => {
+				const body = await req.json();
+				const updated = updateState(body);
+				return Response.json(updated);
+			},
+		},
 	},
 });
+
+console.log("Server running at http://localhost:3001");
