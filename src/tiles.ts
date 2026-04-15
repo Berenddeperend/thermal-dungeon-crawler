@@ -1,14 +1,14 @@
 export const floorTiles = {
 	floor: {
-		sprite: "src/floor.png",
+		sprite: "floor.png",
 		castsShadow: false,
 	},
 	wall: {
-		sprite: "src/wall.png",
+		sprite: "wall.png",
 		castsShadow: true,
 	},
 	stairs: {
-		sprite: "src/stairs.png",
+		sprite: "stairs.png",
 		castsShadow: false,
 	},
 };

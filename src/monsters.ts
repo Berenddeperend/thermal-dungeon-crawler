@@ -1,6 +1,6 @@
 export const monsters = {
 	spider: {
-		sprite: "",
+		sprite: "spider",
 		hp: 2,
 		movement: 5,
 		attack: 4,
