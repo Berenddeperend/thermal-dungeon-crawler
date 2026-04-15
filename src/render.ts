@@ -16,33 +16,22 @@ export function renderLevel(gameState: GameState): Buffer {
 
   const layer = new Konva.Layer();
 
+  const promises = []
+
   level.stage.forEach((row, y) => {
-    row.forEach((cell, x) => {
+    row.forEach( (cell, x) => {
 
-      Konva.Image.fromURL(`src/${cell.sprite}`, (KonvaImage) => {
-        KonvaImage.setAttrs({
-          image: KonvaImage.image(),
-          x: x * cellSize,
-          y: y * cellSize
-        });
-
-        layer.add(KonvaImage);
+      const promise = drawImageToKonva(`src/${cell.sprite}`, layer, {
+        x: x * cellSize,
+        y: y * cellSize
       });
+
+      promises.push(promise)
+
     });
   });
 
-
-  level.monsterPositions.forEach(monsterPosition => {
-    Konva.Image.fromURL(`src/${level.monster.sprite}`, (KonvaImage) => {
-      KonvaImage.setAttrs({
-        image: KonvaImage.image(),
-        x: monsterPosition[0] * cellSize,
-        y: monsterPosition[1] * cellSize
-      });
-
-      layer.add(KonvaImage);
-    });
-  });
+  Promise.all(promises)
 
 
   // TODO: render the level grid, monsters, player, etc.
@@ -54,10 +43,14 @@ export function renderLevel(gameState: GameState): Buffer {
 }
 
 
-async function drawImageToKonva(path: string, layer: Konva.Layer, attrs: ImageConfig) {
+  async function drawImageToKonva(path: string, layer: Konva.Layer, attrs: Omit<ImageConfig, 'image'>) {
   return new Promise<void>(resolve => {
     Konva.Image.fromURL(path, (KonvaImage => {
-      KonvaImage.setAttrs(attrs);
+      KonvaImage.setAttrs({
+        image: KonvaImage.image(),
+        ...attrs
+      });
+      layer.add(KonvaImage)
       resolve();
     }));
   });
